@@ -109,11 +109,16 @@ def deduplicate_transactions(transactions, ledger):
             yield t
 
 
-def print_transactions(filename, rules, existing_ledger=None):
+def get_transactions(filename, rules, existing_ledger=None):
     transactions = read_transactions_from_csv(filename, rules)
     if existing_ledger:
         ledger = Ledger(existing_ledger)
         transactions = deduplicate_transactions(transactions, ledger)
+    return transactions
+
+
+def print_transactions(filename, rules, existing_ledger):
+    transactions = get_transactions(filename, rules, existing_ledger)
     print("; Converted from {}\n; [{}]\n"
           .format(filename, datetime.now().replace(microsecond=0)))
     for t in transactions:
@@ -121,7 +126,7 @@ def print_transactions(filename, rules, existing_ledger=None):
         print()
 
 
-if __name__ == "__main__":
+def main():
     import sys
     rules = Rules(sys.argv[1])
     if len(sys.argv) > 3:
@@ -129,3 +134,7 @@ if __name__ == "__main__":
     else:
         existing_ledger = None
     print_transactions(sys.argv[2], rules, existing_ledger)
+
+
+if __name__ == "__main__":
+    main()

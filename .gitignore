@@ -1,1 +1,6 @@
 /__pycache__/
+/ledger_csv_merge.egg-info/
+/stmts
+/test.ledger
+/test2.ledger
+/test2.ledger.rules
